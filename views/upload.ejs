@@ -1,0 +1,39 @@
+<!-- views/upload.ejs -->
+
+<h1>File Upload</h1>
+
+<form id="uploadForm" enctype="multipart/form-data" action="/upload" method="post">
+  <input type="file" name="file">
+  <input type="submit" value="Upload File">
+</form>
+<progress id="uploadProgress" value="0" max="100"></progress>
+
+<script>
+  const form = document.getElementById('uploadForm');
+  const progress = document.getElementById('uploadProgress');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+
+    const xhr = new XMLHttpRequest();
+
+    xhr.upload.onprogress = function (event) {
+      if (event.lengthComputable) {
+        const percentComplete = (event.loaded / event.total) * 100;
+        progress.value = percentComplete;
+      }
+    };
+
+    xhr.open('POST', '/upload', true);
+    xhr.send(formData);
+
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        // Handle the response here
+        alert(xhr.responseText);
+        progress.value = 0; // Reset progress bar
+      }
+    };
+  });
+</script>
