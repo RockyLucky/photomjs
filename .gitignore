@@ -11,4 +11,5 @@ node_modules/
 .env
 
 # ignore images
-public/images/
+!/public/images/.gitkeep
+/public/images/*
