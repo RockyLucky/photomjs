@@ -1,4 +1,4 @@
-import { pool } from './db.mjs'; // Import your database connection pool
+import { pool } from '../db.mjs'; // Import your database connection pool
 import bcrypt from 'bcrypt';
 
 async function createUserIfNotExists() {

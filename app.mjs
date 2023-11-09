@@ -1,13 +1,13 @@
 import dotenv from 'dotenv'; // for environment variables
-import logClientIP from './ipLogger.mjs'; // ip logger middleware
+import logClientIP from './middleware/ipLogger.mjs'; // ip logger middleware
 import express from 'express'; // for routing
 import passport from 'passport';
 import bodyParser from 'body-parser';
-import initializePassport from './passport-config.mjs';
+import initializePassport from './middleware/passport-config.mjs';
 import session from 'express-session';
 import flash from 'connect-flash';
 import { createUsersTable } from './db.mjs'; // for database setup
-import { createUserIfNotExists } from './create_user.mjs'; // Import the user creation function
+import { createUserIfNotExists } from './middleware/create_user.mjs'; // Import the user creation function
 
 // Import your routes here
 import indexRouter from './routes/index.mjs';
@@ -15,9 +15,10 @@ import galleryRouter from './routes/gallery.mjs'; // Corrected route name
 import viewerRouter from './routes/viewer.mjs';
 import contactRouter from './routes/contact.mjs';
 import loginRouter from './routes/login.mjs';
+import dashboardRouter from './routes/dashboard.mjs';
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.SERVER_PORT || 3000;
 
 dotenv.config();
 
@@ -41,6 +42,7 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(flash());
+
 // Passport authentication setup
 app.use(passport.initialize());
 app.use(passport.session());
@@ -56,6 +58,7 @@ app.use('/gallery', galleryRouter);
 app.use('/viewer', viewerRouter);
 app.use('/contact', contactRouter);
 app.use('/login', loginRouter);
+app.use('/dashboard', dashboardRouter);
 
 // Start the server
 app.listen(port, () => {

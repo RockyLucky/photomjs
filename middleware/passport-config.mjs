@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import localStrategy from 'passport-local';
-import { pool } from './db.mjs';
+import { pool } from '../db.mjs';
 
 const Strategy = localStrategy.Strategy;
 
