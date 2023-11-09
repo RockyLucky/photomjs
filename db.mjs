@@ -1,3 +1,4 @@
+// db.mjs 
 import pg from 'pg';
 import dotenv from 'dotenv';
 
@@ -24,4 +25,4 @@ async function createUsersTable() {
   `);
 };
 
-export { createUsersTable } 
+export { pool, createUsersTable }; 
