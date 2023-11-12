@@ -19,7 +19,6 @@ const isAuthenticated = (req, res, next) => {
 router.get('/', isAuthenticated, (req, res) => {
   // Render the dashboard view
   res.render('dashboard.ejs');
-  
 });
 
 // Export the router
