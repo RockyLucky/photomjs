@@ -13,3 +13,7 @@ node_modules/
 # ignore images
 !/public/images/.gitkeep
 /public/images/*
+
+# ignore everything in public/albums but keep the .gitkeep
+/public/albums/*
+!/public/albums/.gitkeep

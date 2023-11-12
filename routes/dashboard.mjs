@@ -21,5 +21,7 @@ router.get('/', isAuthenticated, (req, res) => {
   res.render('dashboard.ejs');
 });
 
+router.get
+
 // Export the router
 export default router;
