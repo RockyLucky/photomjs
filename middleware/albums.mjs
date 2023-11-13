@@ -1,75 +1,95 @@
 // Import necessary modules and dependencies
 import fs from 'fs';
+import dotenv from 'dotenv';
 
-// Define a function to create an album
-function createAlbum(name, description) {
-    // Check if an album with the same name already exists
-    const albums = getAlbums();
-    const existingAlbum = albums.find(album => album.name === name);
-    if (existingAlbum) {
-        throw new Error(`Album with name ${name} already exists`);
-    }
+dotenv.config();
 
-    const album = {
-        name,
-        description,
-        images: []
-    };
-    // Save the new album to disk
-    saveAlbum(album);
-    return album;
-}
+// Define the albums directory
+const albumsDir = process.env.ALBUMS_DIR;
 
-// Define a function to add an image to an album
-function addImage(albumName, filename, filesize) {
-    // Load the album from disk
-    const album = getAlbum(albumName);
-    album.images.push({
-        filename,
-        filesize
+// Define the albums array
+let albums = [];
+
+// Define the function to read the albums directory
+const readAlbumsDir = () => {
+    // Read the albums directory
+    fs.readdir(albumsDir, (err, files) => {
+        // If there is an error, log it
+        if (err) {
+            console.log(err);
+        } else {
+            // If there is no error, log the files
+            console.log(files);
+            // Assign the files to the albums array
+            albums = files;
+        }
     });
-    // Save the updated album to disk
-    saveAlbum(album);
-}
+};
 
-// Define a function to get album details
-function getAlbumDetails(albumName) {
-    const album = getAlbum(albumName);
-    return {
-        name: album.name,
-        description: album.description,
-        numImages: album.images.length
-    };
-}
+// Call the readAlbumsDir function to load the albums
+readAlbumsDir();
 
-// Helper function to load all albums from disk
-function getAlbums() {
-    const albumsData = fs.readFileSync('albums.json');
-    return JSON.parse(albumsData);
-}
+// Define the function to create an album
+const createAlbum = (albumName) => {
+    // Create the album directory
+    fs.mkdir(`${albumsDir}/${albumName}`, (err) => {
+        // If there is an error, log it
+        if (err) {
+            console.log(err);
+        } else {
+            // If there is no error, log the success message
+            console.log(`Album ${albumName} created successfully`);
+            // Refresh the albums list
+            readAlbumsDir();
+        }
+    });
+};
 
-// Helper function to load a single album from disk
-function getAlbum(albumName) {
-    const albums = getAlbums();
-    const album = albums.find(album => album.name === albumName);
-    if (!album) {
-        throw new Error(`Album with name ${albumName} not found`);
-    }
-    return album;
-}
+// Define the function to delete an album
+const deleteAlbum = (albumName) => {
+    // Delete the album directory
+    fs.rmdir(`${albumsDir}/${albumName}`, (err) => {
+        // If there is an error, log it
+        if (err) {
+            console.log(err);
+        } else {
+            // If there is no error, log the success message
+            console.log(`Album ${albumName} deleted successfully`);
+            // Refresh the albums list
+            readAlbumsDir();
+        }
+    });
+};
 
-// Helper function to save an album to disk
-function saveAlbum(album) {
-    const albums = getAlbums();
-    const existingAlbumIndex = albums.findIndex(a => a.name === album.name);
-    if (existingAlbumIndex !== -1) {
-        // Replace the existing album
-        albums[existingAlbumIndex] = album;
-    } else {
-        // Add the new album
-        albums.push(album);
-    }
-    fs.writeFileSync('albums.json', JSON.stringify(albums));
-}
 
-export { createAlbum, addImage, getAlbumDetails };
+// Define the function to rename an album
+const renameAlbum = (oldAlbumName, newAlbumName) => {
+    // Rename the album directory
+    fs.rename(`${albumsDir}/${oldAlbumName}`, `${albumsDir}/${newAlbumName}`, (err) => {
+        // If there is an error, log it
+        if (err) {
+            console.log(err);
+        } else {
+            // If there is no error, log the success message
+            console.log(`Album ${oldAlbumName} renamed to ${newAlbumName} successfully`);
+            // Refresh the albums list
+            readAlbumsDir();
+        }
+    });
+};
+
+// Define the function to read the album contents
+const readAlbumContents = (albumName) => {
+    // Read the album directory
+    fs.readdir(`${albumsDir}/${albumName}`, (err, files) => {
+        // If there is an error, log it
+        if (err) {
+            console.log(err);
+        } else {
+            // If there is no error, log the files
+            console.log(files);
+        }
+    });
+};
+
+export { albums, readAlbumsDir, createAlbum, deleteAlbum, renameAlbum, readAlbumContents };
