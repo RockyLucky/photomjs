@@ -1,6 +1,6 @@
 // Import the necessary modules
 import express from 'express';
-import '../middleware/albums.mjs';
+import { readAlbumsDir } from '../middleware/albums.mjs';
 
 // Create a router instance
 const router = express.Router();
@@ -17,11 +17,11 @@ const isAuthenticated = (req, res, next) => {
 
 // Define the dashboard route and use the isAuthenticated middleware
 router.get('/', isAuthenticated, (req, res) => {
+  readAlbumsDir(); // read the albums directory
   // Render the dashboard view
   res.render('dashboard.ejs');
 });
 
-router.get
 
 // Export the router
 export default router;
