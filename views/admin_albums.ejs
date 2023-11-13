@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>main</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/styles.min.css">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/styles.min.css">
 </head>
 
 <body>
@@ -17,42 +17,27 @@
                     </svg></span><span>Brand</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link active" href="#">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/dashboard/albums">Albums</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/dashboard/albums">Albums</a></li>
                 </ul><a class="btn btn-primary ms-md-2" role="button" href="#">Home</a>
             </div>
         </div>
     </nav>
-    <div class="container py-4 py-xl-5">
-        <div class="text-center text-white-50 bg-primary border rounded border-0 p-3">
-            <div class="row row-cols-2 row-cols-md-4">
+    <section class="photo-gallery py-4 py-xl-5">
+        <div class="container">
+            <div class="row gx-2 gy-2 row-cols-1 row-cols-md-2 row-cols-xl-3 photos" data-bss-baguettebox="">
+                <% albums.forEach(album => { %> 
                 <div class="col">
-                    <div class="p-3">
-                        <h4 class="display-5 fw-bold text-white mb-0">14</h4>
-                        <p class="mb-0">Viewers</p>
+                    <div class="card"><img class="card-img w-100 d-block" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
+                        <div class="card-img-overlay text-center d-flex flex-column justify-content-center align-items-center p-4">
+                            <h4><%= album %></h4>
+                        </div>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="p-3">
-                        <h4 class="display-5 fw-bold text-white mb-0">12</h4>
-                        <p class="mb-0">Albums</p>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="p-3">
-                        <h4 class="display-5 fw-bold text-white mb-0">15gb</h4>
-                        <p class="mb-0">Traffic&nbsp;</p>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="p-3">
-                        <h4 class="display-5 fw-bold text-white mb-0">6gb</h4>
-                        <p class="mb-0">Storage</p>
-                    </div>
-                </div>
+                <% }) %>
             </div>
         </div>
-    </div>
+    </section>
     <footer class="text-center py-4">
         <div class="container">
             <div class="row row-cols-1 row-cols-lg-3">
@@ -77,8 +62,8 @@
             </div>
         </div>
     </footer>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/script.min.js"></script>
+    <script src="/public/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/public/assets/js/script.min.js"></script>
 </body>
 
 </html>

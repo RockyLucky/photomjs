@@ -1,6 +1,6 @@
 // Import the necessary modules
 import express from 'express';
-import { readAlbumsDir } from '../middleware/albums.mjs';
+import { albums, readAlbumsDir } from '../middleware/albums.mjs';
 
 // Create a router instance
 const router = express.Router();
@@ -20,6 +20,12 @@ router.get('/', isAuthenticated, (req, res) => {
   readAlbumsDir(); // read the albums directory
   // Render the dashboard view
   res.render('dashboard.ejs');
+});
+
+router.get('/albums', isAuthenticated, (req, res) => {
+  // Render the albums view
+  readAlbumsDir(); // read the albums directory
+  res.render('admin_albums.ejs' , {albums: albums});
 });
 
 
