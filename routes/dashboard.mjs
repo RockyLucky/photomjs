@@ -28,6 +28,11 @@ router.get('/albums', isAuthenticated, (req, res) => {
   res.render('admin_albums.ejs' , {albums: albums});
 });
 
+router.get('/albums/:album', isAuthenticated, (req, res) => {
+  // Render the albums view
+  readAlbumsDir(); // read the albums directory
+  res.render('admin_album.ejs' , {albums: albums});
+});
 
 // Export the router
 export default router;
