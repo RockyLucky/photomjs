@@ -4,10 +4,10 @@ import fs from 'fs';
 
 const viewerRouter = express.Router();
 
-viewerRouter.get('/:image', (req, res) => {
-  const { image } = req.params;
-  const imagePath = `./public/images/${image}`;
-  const imageList = fs.readdirSync('./public/images');
+viewerRouter.get('/:album/:image', (req, res) => {
+  const { album, image } = req.params;
+  const imagePath = `./public/images/${album}/${image}`;
+  const imageList = fs.readdirSync(`./public/images/${album}`);
 
   // Check if the image exists
   if (fs.existsSync(imagePath)) {
@@ -20,7 +20,7 @@ viewerRouter.get('/:image', (req, res) => {
 
     res.render('viewer', {
       title: 'Image Viewer',
-      imageSrc: `/images/${image}`,
+      imageSrc: `/images/${album}/${image}`,
       nextImage: nextImage,
       previousImage: previousImage,
     });

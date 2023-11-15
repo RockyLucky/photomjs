@@ -79,15 +79,15 @@ const renameAlbum = (oldAlbumName, newAlbumName) => {
 };
 
 // Define the function to read the album contents
-const readAlbumContents = (albumName) => {
+const readAlbumContents = (albumName, callback) => {
     // Read the album directory
     fs.readdir(`${albumsDir}/${albumName}`, (err, files) => {
-        // If there is an error, log it
+        // If there is an error, call the callback with the error
         if (err) {
-            console.log(err);
+            callback(err);
         } else {
-            // If there is no error, log the files
-            console.log(files);
+            // If there is no error, call the callback with the files
+            callback(null, files);
         }
     });
 };

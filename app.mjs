@@ -54,7 +54,7 @@ app.use(logClientIP);
 
 // Define your routes
 app.use('/', indexRouter);
-app.use('/gallery', galleryRouter); 
+app.use(galleryRouter); 
 app.use('/viewer', viewerRouter);
 app.use('/contact', contactRouter);
 app.use('/login', loginRouter);
