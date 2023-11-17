@@ -11,8 +11,7 @@ import { createUserIfNotExists } from './middleware/create_user.mjs'; // Import 
 
 // Import your routes here
 import indexRouter from './routes/index.mjs';
-import galleryRouter from './routes/gallery.mjs'; // Corrected route name
-import viewerRouter from './routes/viewer.mjs';
+import albumRouter from './routes/album_viewer.mjs';
 import contactRouter from './routes/contact.mjs';
 import loginRouter from './routes/login.mjs';
 import dashboardRouter from './routes/dashboard.mjs';
@@ -54,8 +53,7 @@ app.use(logClientIP);
 
 // Define your routes
 app.use('/', indexRouter);
-app.use(galleryRouter); 
-app.use('/viewer', viewerRouter);
+app.use('/album', albumRouter); 
 app.use('/contact', contactRouter);
 app.use('/login', loginRouter);
 app.use('/dashboard', dashboardRouter);
