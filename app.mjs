@@ -15,6 +15,7 @@ import albumRouter from './routes/album_viewer.mjs';
 import contactRouter from './routes/contact.mjs';
 import loginRouter from './routes/login.mjs';
 import dashboardRouter from './routes/dashboard.mjs';
+import testupload from './routes/test-upload.mjs';
 
 const app = express();
 const port = process.env.SERVER_PORT || 3000;
@@ -57,6 +58,7 @@ app.use('/album', albumRouter);
 app.use('/contact', contactRouter);
 app.use('/login', loginRouter);
 app.use('/dashboard', dashboardRouter);
+app.use('/upload', testupload);
 
 // Start the server
 app.listen(port, () => {
