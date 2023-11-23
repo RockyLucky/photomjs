@@ -10,7 +10,7 @@ testupload.get('/', (req, res) => {
 
 // Handle the POST request
 testupload.post('/', uploadFilesMiddleware, (req, res) => {
-    console.log('POST request received at /test-upload');
+    res.send('Files uploaded successfully');
 });
 
 export default testupload;
