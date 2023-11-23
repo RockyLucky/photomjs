@@ -7,7 +7,7 @@ import initializePassport from './middleware/passport-config.mjs';
 import session from 'express-session';
 import flash from 'connect-flash';
 import { createUsersTable } from './db.mjs'; // for database setup
-import { createUserIfNotExists } from './middleware/create_user.mjs'; // Import the user creation function
+import { createUser } from './middleware/create_user.mjs'; // Import the user creation function
 
 // Import your routes here
 import indexRouter from './routes/index.mjs';
@@ -46,7 +46,7 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-createUserIfNotExists(); // call the function to create the user
+createUser("testuser", "password123"); // call the function to create the user
 
 // Use the custom middleware to log client IP globally
 app.use(logClientIP);
