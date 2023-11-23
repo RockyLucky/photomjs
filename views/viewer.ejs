@@ -8,15 +8,9 @@
 </head>
 <body>
     <div class="viewer">
-        <img src="<%= imageSrc %>" alt="<%= title %>">
-        <div class="navigation">
-            <% if (previousImage) { %>
-                <a href="/viewer/<%= previousImage %>">Previous</a>
-            <% } %>
-            <% if (nextImage) { %>
-                <a href="/viewer/<%= nextImage %>">Next</a>
-            <% } %>
-        </div>
+        <h1><%= album %></h1>
+        <img src="/albums/<%= album %>/<%= image %>" alt="<%= image %>">
+        <p><%= image %></p>
     </div>
 </body>
 </html>

@@ -1,57 +1,70 @@
-import 'dotenv/config'; // for environment variables
-import express from 'express';
-import session from 'express-session'; // Import session
-
-import pg from 'pg'; // for database connection
-import pgSession from 'connect-pg-simple'; // for session storage in the database
+import dotenv from 'dotenv'; // for environment variables
+import logClientIP from './middleware/ipLogger.mjs'; // ip logger middleware
+import express from 'express'; // for routing
+import passport from 'passport';
+import bodyParser from 'body-parser';
+import initializePassport from './middleware/passport-config.mjs';
+import session from 'express-session';
+import flash from 'connect-flash';
+import { createUsersTable } from './db.mjs'; // for database setup
+import { createUser } from './middleware/create_user.mjs'; // Import the user creation function
 
 // Import your routes here
 import indexRouter from './routes/index.mjs';
-import galleryRouter from './routes/gallery.mjs'; // Corrected route name
-import viewerRouter from './routes/viewer.mjs';
+import albumRouter from './routes/album_viewer.mjs';
 import contactRouter from './routes/contact.mjs';
-import adminRouter from './routes/admin/admin.mjs';
+import loginRouter from './routes/login.mjs';
+import dashboardRouter from './routes/dashboard.mjs';
+import testupload from './routes/test-upload.mjs';
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.SERVER_PORT || 3000;
 
-// Setup session storage
-const pool = new pg.Pool({
-  host: process.env.DB_HOST,
-  port: parseInt(process.env.DB_PORT),
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-});
+dotenv.config();
 
-// Session configuration using connect-pg-simple
-const pgSessionStore = new (pgSession(session))({
-  pool,
-  tableName: 'session', // Customize the session table name if needed
-});
+initializePassport(passport); // call the function to initialize passport
 
+// Database setup
+createUsersTable(); // call the function to create the user table
+console.log('Database setup complete');
+
+// setup session
 app.use(
   session({
-    store: pgSessionStore, // Use the pgSessionStore object
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false,
-    cookie: { maxAge: 1 * 24 * 60 * 60 * 1000 }, // 1 day
+    saveUninitialized: true,
   })
 );
 
-
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(flash());
+
+// Passport authentication setup
+app.use(passport.initialize());
+app.use(passport.session());
+
+createUser("testuser", "password123"); // call the function to create the user
+
+// Use the custom middleware to log client IP globally
+app.use(logClientIP);
+
+// Middleware to pass copyright text to all views
+app.use((req, res, next) => {
+  res.locals.copyright = process.env.COPYRIGHT_TEXT;
+  next();
+});
 
 // Define your routes
 app.use('/', indexRouter);
-app.use('/gallery', galleryRouter); 
-app.use('/viewer', viewerRouter);
+app.use('/album', albumRouter); 
 app.use('/contact', contactRouter);
-
-// Admin routes
-app.use('/admin', adminRouter);
+app.use('/login', loginRouter);
+app.use('/dashboard', dashboardRouter);
+app.use('/upload', testupload);
 
 // Start the server
 app.listen(port, () => {
