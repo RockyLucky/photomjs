@@ -28,7 +28,5 @@ router.get('/albums', isAuthenticated, (req, res) => {
   res.render('admin_albums.ejs' , {albums: albums});
 });
 
-
-
 // Export the router
 export default router;

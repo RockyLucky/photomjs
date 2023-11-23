@@ -52,6 +52,12 @@ createUser("testuser", "password123"); // call the function to create the user
 // Use the custom middleware to log client IP globally
 app.use(logClientIP);
 
+// Middleware to pass copyright text to all views
+app.use((req, res, next) => {
+  res.locals.copyright = process.env.COPYRIGHT_TEXT;
+  next();
+});
+
 // Define your routes
 app.use('/', indexRouter);
 app.use('/album', albumRouter); 
